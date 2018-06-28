@@ -15,18 +15,31 @@ spec:
         app: kibana
         stack: logging
     spec:
-      # FIXME
-      # healthcheck + resources
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: efknode
+                operator: In
+                values:
+                - "true"
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana-oss:6.0.0
+        image: docker.elastic.co/kibana/kibana-oss:6.0.1
         imagePullPolicy: IfNotPresent
         env:
         - name: ELASTICSEARCH_PASSWORD
           value: changeme
         ports:
         - containerPort: 5601
-        resources: {}
+        resources:
+          limits:
+            cpu: 100m
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
         volumeMounts:
         - name: config
           mountPath: /usr/share/kibana/kibana.yml

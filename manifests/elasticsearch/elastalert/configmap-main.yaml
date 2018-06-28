@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastalert-main
+  labels:
+    app: elastalert
+    stack: logging
+data:
+  config.yaml: |-
+    # This is the folder that contains the rule yaml files
+    # Any .yaml file will be loaded as a rule
+    rules_folder: /opt/elastalert/rules
+
+    # In order to prevent error "rule duplicated"
+    scan_subdirectories: false
+
+    # How often ElastAlert will query Elasticsearch
+    # The unit can be anything from weeks to seconds
+    run_every:
+      minutes: 1
+
+    # ElastAlert will buffer results from the most recent
+    # period of time, in case some log sources are not in real time
+    buffer_time:
+      minutes: 3
+
+    # The Elasticsearch hostname for metadata writeback
+    # Note that every rule can have its own Elasticsearch host
+    es_host: elasticsearch-efk.$NAMESPACE.svc
+
+    # The Elasticsearch port
+    es_port: 9200
+
+    # Optional URL prefix for Elasticsearch
+    #es_url_prefix: elasticsearch
+
+    # Connect with TLS to Elasticsearch
+    use_ssl: False
+
+    # Use SSL authentication with client certificates client_cert must be
+    # a pem file containing both cert and key for client
+    verify_certs: False
+    #ca_certs: /path/to/cacert.pem
+    #client_cert: /path/to/client_cert.pem
+    #client_key: /path/to/client_key.key
+
+    # GET request with body is the default option for Elasticsearch.
+    # If it fails for some reason, you can pass 'GET', 'POST' or 'source'.
+    # See http://elasticsearch-py.readthedocs.io/en/master/connection.html?highlight=send_get_body_as#transport
+    # for details
+    #es_send_get_body_as: GET
+
+    # Option basic-auth username and password for Elasticsearch
+    #es_username: someusername
+    #es_password: somepassword
+
+    # The index on es_host which is used for metadata storage
+    # This can be a unmapped index, but it is recommended that you run
+    # elastalert-create-index to set a mapping
+    writeback_index: elastalert_status
+
+    # If an alert fails for some reason, ElastAlert will retry
+    # sending the alert until this time period has elapsed
+    alert_time_limit:
+      days: 2
+
+    # Setup report smtp config
+    from_addr: ElastAlert@yoursite.com
+    smtp_host: smtp.exmail.qq.com
+    smtp_port: 465
+    smtp_ssl: True
+    smtp_auth_file: /opt/elastalert/config/smtp_auth.yaml
+
+  smtp_auth.yaml: |-
+    user: dev@yoursite.com
+    password: yourpassword
+
+  config.json: |-
+    {
+      "appName": "elastalert-server",
+      "port": 3030,
+      "elastalertPath": "/opt/elastalert",
+      "verbose": false,
+      "es_debug": false,
+      "debug": false,
+      "rulesPath": {
+        "relative": true,
+        "path": "/rules"
+      },
+      "templatesPath": {
+        "relative": true,
+        "path": "/rule_templates"
+      },
+      "dataPath": {
+        "relative": true,
+        "path": "/server_data"
+      }
+    }

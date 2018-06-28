@@ -8,6 +8,11 @@ metadata:
 data:
   kibana.yml: |
     server:
-      name: "full-stack-example"
-      port: 127.0.0.1:5601
-    elasticsearch.url: "http://elasticsearch:9200"
+      name: Kibana
+      host: 0.0.0.0
+      port: 5601
+    elasticsearch.url: "http://elasticsearch-efk.$NAMESPACE.svc:9200"
+    elastalert.serverHost: elasticsearch-efk.$NAMESPACE.svc
+    kibana.defaultAppId: "discover"
+    logging.dest: stdout
+    logging.quiet: true

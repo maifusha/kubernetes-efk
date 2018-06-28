@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elastalert-rules
+  labels:
+    app: elastalert
+    stack: logging
+data:
+  application-error.yaml : |-
+    name: Report Application Error
+    type: any
+    index: application.error-%Y.%m.%d
+    use_strftime_index: True
+    generate_kibana_link: True
+    kibana_url: kibana.efk.yoursite.com
+
+    filter:
+      - terms:
+          environment: ["production", "staging"]
+
+    query_delay:
+      minutes: 1
+    realert:
+      minutes: 1
+    query_key:
+      - application_name
+      - environment
+      - message
+
+    alert:
+      - email
+    email:
+      - dev@yoursite.com
+    alert_subject: "[{0} 应用报错] {1}环境，{2}应用"
+    alert_subject_args:
+      - "@timestamp"
+      - environment
+      - application_name
+
+  php-error.yaml  : |-
+    name: Report PHP Error
+    type: any
+    index: php.error-%Y.%m.%d
+    use_strftime_index: True
+    generate_kibana_link: True
+    kibana_url: kibana.efk.yoursite.com
+
+    filter:
+      - terms:
+          environment: ["production", "staging"]
+      - terms:
+          level: "Fatal error"
+
+    query_delay:
+      minutes: 1
+    realert:
+      minutes: 1
+    query_key:
+        - message
+
+    alert:
+      - email
+    email:
+      - dev@yoursite.com
+    alert_subject: "[{0} PHP报错] {1}主机"
+    alert_subject_args:
+      - "@timestamp"
+      - hostname

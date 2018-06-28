@@ -1,0 +1,58 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: elastalert
+  labels:
+    app: elastalert
+    stack: logging
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: elastalert
+        stack: logging
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: efknode
+                operator: In
+                values:
+                - "true"
+      containers:
+      - name: elastalert
+        image: bitsensor/elastalert:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3030
+        volumeMounts:
+        - name: config-main
+          mountPath: /opt/elastalert-server/config/config.json
+          subPath: config.json
+        - name: config-main
+          mountPath: /opt/elastalert/config.yaml
+          subPath: config.yaml
+        - name: config-rules
+          mountPath: /opt/elastalert/rules
+        - name: data
+          mountPath: /opt/elastalert/server_data
+        - name: logs
+          mountPath: /opt/elastalert/logs
+      volumes:
+        - name: config-main
+          configMap:
+            name: elastalert-main
+        - name: config-rules
+          configMap:
+            name: elastalert-rules
+        - name: data
+          hostpath:
+            path: /data/efk/elastalert/server_data
+        - name: logs
+          hostpath:
+            path: /data/efk/elastalert/logs
