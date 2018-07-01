@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 data:
   elasticsearch.yml: |
     cluster.name: efk-cluster
@@ -18,4 +18,4 @@ data:
     transport.host: 127.0.0.1
     network.host: ${NETWORK_HOST}
     discovery.zen.minimum_master_nodes: ${MINIMUM_MASTER_NODES}
-    discovery.zen.ping.unicast.hosts: elasticsearch-efk.$NAMESPACE.svc:9300
+    discovery.zen.ping.unicast.hosts: ${UNICAST_HOSTS}

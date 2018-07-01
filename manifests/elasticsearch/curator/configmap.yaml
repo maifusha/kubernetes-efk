@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: curator
+  labels:
+    app: curator
+    stack: efk
+data:
+  config.yml: |
+    # Remember, leave a key empty if there is no value.  None will be a string,
+    # not a Python "NoneType"
+    client:
+      hosts:
+        - ${ELASTIC_SEARCH_HOST:localhost}
+      port: ${ELASTIC_SEARCH_PORT:9200}
+      url_prefix:
+      use_ssl: False
+      certificate:
+      client_cert:
+      client_key:
+      ssl_no_validate: False
+      http_auth:
+      timeout: 30
+      master_only: False
+
+    logging:
+      loglevel: INFO
+      logfile:
+      logformat: default
+      blacklist: ['elasticsearch', 'urllib3']
+
+  action.yml: |
+    # Remember, leave a key empty if there is no value.  None will be a string,
+    # not a Python "NoneType"
+    actions:
+      1:
+        action: delete_indices
+        description: "Delete Log Indices"
+        options:
+          ignore_empty_list: True
+          disable_action: False
+          timeout_override: 180
+          continue_if_exception: False
+        filters:
+        - filtertype: pattern
+          kind: regex
+          value: ${FILTER_REGEX}
+        - filtertype: age
+          source: name
+          timestring: '%Y.%m.%d'
+          direction: older
+          unit: days
+          unit_count: ${EXPIRATION_DAYS}

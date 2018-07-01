@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 spec:
   replicas: 1
   strategy:
@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: elasticsearch
-        stack: logging
+        stack: efk
     spec:
       serviceAccountName: elasticsearch
       initContainers:
@@ -54,6 +54,8 @@ spec:
           value: elasticsearch-efk
         - name: MINIMUM_MASTER_NODES
           value: 1
+        - name: UNICAST_HOSTS
+          value: elasticsearch-efk.$NAMESPACE.svc:9300
         ports:
         - name: api
           containerPort: 9200
@@ -90,7 +92,7 @@ spec:
 #  name: elasticsearch
 #  labels:
 #    app: elasticsearch
-#    stack: logging
+#    stack: efk
 #spec:
 #  storageClassName: standard
 #  accessModes:

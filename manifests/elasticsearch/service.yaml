@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch-efk
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 spec:
   type: ClusterIP
   ports:
@@ -16,4 +16,4 @@ spec:
     targetPort: 9300
   selector:
     app: elasticsearch
-    stack: logging
+    stack: efk

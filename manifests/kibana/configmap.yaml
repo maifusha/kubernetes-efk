@@ -4,15 +4,18 @@ metadata:
   name: kibana
   labels:
     app: kibana
-    stack: logging
+    stack: efk
 data:
   kibana.yml: |
     server:
       name: Kibana
       host: 0.0.0.0
       port: 5601
-    elasticsearch.url: "http://elasticsearch-efk.$NAMESPACE.svc:9200"
-    elastalert.serverHost: elasticsearch-efk.$NAMESPACE.svc
+    elasticsearch:
+      url: ${ELASTICSEARCH_URL:localhost}
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
+    elastalert.serverHost: ${ELASTALERT_SERVERHOST}
     kibana.defaultAppId: "discover"
     logging.dest: stdout
     logging.quiet: true

@@ -18,18 +18,18 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name:  FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch-efk.$NAMESPACE.svc"
+          value: elasticsearch-efk.$NAMESPACE.svc
         - name:  FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
+          value: 9200
         - name: FLUENT_ELASTICSEARCH_SCHEME
-          value: "http"
+          value: http
         - name:  FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX
-          value: "fluentd"
+          value: fluentd
         # X-Pack Authentication
         #- name: FLUENT_ELASTICSEARCH_USER
-        #  value: "elastic"
+        #  value: elastic
         #- name: FLUENT_ELASTICSEARCH_PASSWORD
-        #  value: "changeme"
+        #  value: changeme
         ports:
         - name: http
           containerPort: 9880

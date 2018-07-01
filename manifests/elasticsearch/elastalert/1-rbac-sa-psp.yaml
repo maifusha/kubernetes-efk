@@ -4,7 +4,7 @@ metadata:
   name: elastalert
   labels:
     app: elastalert
-    stack: logging
+    stack: efk
 rules:
 - apiGroups: [""]
   resources:
@@ -21,7 +21,7 @@ metadata:
   name: elastalert
   labels:
     app: elastalert
-    stack: logging
+    stack: efk
 subjects:
 - kind: ServiceAccount
   name: elastalert
@@ -37,4 +37,4 @@ metadata:
   name: elastalert
   labels:
     app: elastalert
-    stack: logging
+    stack: efk

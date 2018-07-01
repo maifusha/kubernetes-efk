@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 rules:
 - apiGroups:
   - extensions
@@ -21,7 +21,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 subjects:
 - kind: ServiceAccount
   name: elasticsearch
@@ -37,7 +37,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 ---
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
@@ -45,7 +45,7 @@ metadata:
   name: elasticsearch
   labels:
     app: elasticsearch
-    stack: logging
+    stack: efk
 spec:
   fsGroup:
     rule: RunAsAny

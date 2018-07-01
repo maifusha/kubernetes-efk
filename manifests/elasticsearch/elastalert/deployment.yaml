@@ -4,7 +4,7 @@ metadata:
   name: elastalert
   labels:
     app: elastalert
-    stack: logging
+    stack: efk
 spec:
   replicas: 1
   strategy:
@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: elastalert
-        stack: logging
+        stack: efk
     spec:
       affinity:
         nodeAffinity:

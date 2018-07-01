@@ -4,7 +4,7 @@ metadata:
   name: kibana
   labels:
     app: kibana
-    stack: logging
+    stack: efk
 spec:
   replicas: 1
   strategy:
@@ -13,7 +13,7 @@ spec:
     metadata:
       labels:
         app: kibana
-        stack: logging
+        stack: efk
     spec:
       affinity:
         nodeAffinity:
@@ -29,8 +29,14 @@ spec:
         image: docker.elastic.co/kibana/kibana-oss:6.0.1
         imagePullPolicy: IfNotPresent
         env:
-        - name: ELASTICSEARCH_PASSWORD
-          value: changeme
+        - name: ELASTALERT_SERVERHOST
+          value: elasticsearch-efk.$NAMESPACE.svc
+        - name: ELASTICSEARCH_URL
+          value: http://elasticsearch-efk.$NAMESPACE.svc:9200
+        #- name: ELASTICSEARCH_PASSWORD
+        #  value: password
+        #- name: ELASTICSEARCH_USERNAME
+        #  value: user
         ports:
         - containerPort: 5601
         resources:

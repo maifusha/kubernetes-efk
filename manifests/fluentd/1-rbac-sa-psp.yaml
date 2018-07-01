@@ -4,7 +4,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 rules:
 - apiGroups:
   - extensions
@@ -21,7 +21,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 subjects:
 - kind: ServiceAccount
   name: fluentd
@@ -36,7 +36,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 ---
 apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
@@ -44,7 +44,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 spec:
   fsGroup:
     rule: RunAsAny
@@ -69,7 +69,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 rules:
 - apiGroups: [""] # core API group
   resources: ["pods", "namespaces"]
@@ -81,7 +81,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
-    stack: logging
+    stack: efk
 subjects:
 - kind: ServiceAccount
   name: fluentd
