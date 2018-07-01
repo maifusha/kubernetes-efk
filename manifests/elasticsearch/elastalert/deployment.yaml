@@ -51,8 +51,8 @@ spec:
           configMap:
             name: elastalert-rules
         - name: data
-          hostpath:
+          hostPath:
             path: /data/efk/elastalert/server_data
         - name: logs
-          hostpath:
+          hostPath:
             path: /data/efk/elastalert/logs

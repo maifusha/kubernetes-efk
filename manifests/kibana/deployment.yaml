@@ -30,13 +30,13 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: ELASTALERT_SERVERHOST
-          value: elasticsearch-efk.$NAMESPACE.svc
+          value: "elasticsearch-efk.$NAMESPACE.svc"
         - name: ELASTICSEARCH_URL
-          value: http://elasticsearch-efk.$NAMESPACE.svc:9200
-        #- name: ELASTICSEARCH_PASSWORD
-        #  value: password
+          value: "http://elasticsearch-efk.$NAMESPACE.svc:9200"
         #- name: ELASTICSEARCH_USERNAME
-        #  value: user
+        #  value: "user"
+        #- name: ELASTICSEARCH_PASSWORD
+        #  value: "password"
         ports:
         - containerPort: 5601
         resources:

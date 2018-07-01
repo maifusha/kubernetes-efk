@@ -17,13 +17,13 @@ spec:
             command: ['--config', '/etc/curator/config.yml', '/etc/curator/action.yml']
             env:
             - name: ELASTIC_SEARCH_HOST
-              value: elasticsearch-efk.$NAMESPACE.svc
+              value: "elasticsearch-efk.$NAMESPACE.svc"
             - name: ELASTIC_SEARCH_PORT
-              value: 9200
+              value: "9200"
             - name: FILTER_REGEX
-              value: ^(kong.access-|nginx.access-|web.error-|api.error-|php.error-).*$
+              value: "^(nginx.access-|web.error-|php.error-).*$"
             - name: EXPIRATION_DAYS
-              value: 30
+              value: "30"
             volumeMounts:
             - name: config
               mountPath: /etc/curator

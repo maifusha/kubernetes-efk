@@ -28,7 +28,7 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ["sh", "-c", "chown -R 1000:100 /usr/share/elasticsearch/data"]
         volumeMounts:
-        - name: data
+        - name: datalog
           mountPath: /usr/share/elasticsearch/data
       affinity:
         nodeAffinity:
@@ -45,17 +45,17 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name: ES_JAVA_OPTS
-          value: -Xms2g -Xmx2g
+          value: "-Xms2g -Xmx2g"
         - name: ES_JVM_HEAP
-          value: 1024m
+          value: "1024m"
         - name: ES_MEM_LIMIT
-          value: 2g
+          value: "2g"
         - name: NETWORK_HOST
-          value: elasticsearch-efk
+          value: "elasticsearch-efk"
         - name: MINIMUM_MASTER_NODES
-          value: 1
+          value: "1"
         - name: UNICAST_HOSTS
-          value: elasticsearch-efk.$NAMESPACE.svc:9300
+          value: "elasticsearch-efk.$NAMESPACE.svc:9300"
         ports:
         - name: api
           containerPort: 9200
