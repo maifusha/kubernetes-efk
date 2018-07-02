@@ -27,7 +27,7 @@ spec:
             volumeMounts:
             - name: config
               mountPath: /etc/curator
-          restartPolicy: Always
+          restartPolicy: OnFailure
           volumes:
           - name: config
             configMap:
