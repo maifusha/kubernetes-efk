@@ -65,15 +65,15 @@ data:
       days: 2
 
     # Setup report smtp config
-    from_addr: ElastAlert@yoursite.com
-    smtp_host: smtp.exmail.qq.com
-    smtp_port: 465
+    from_addr: $SMTP_ELASTALERT_FROM
+    smtp_host: $SMTP_HOST
+    smtp_port: $SMTP_PORT
     smtp_ssl: True
     smtp_auth_file: /opt/elastalert/config/smtp_auth.yaml
 
   smtp_auth.yaml: |-
-    user: dev@yoursite.com
-    password: yourpassword
+    user: $SMTP_USER
+    password: $SMTP_PASSWORD
 
   config.json: |-
     {

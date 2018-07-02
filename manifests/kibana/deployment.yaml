@@ -33,10 +33,10 @@ spec:
           value: "elasticsearch-efk.$NAMESPACE.svc"
         - name: ELASTICSEARCH_URL
           value: "http://elasticsearch-efk.$NAMESPACE.svc:9200"
-        #- name: ELASTICSEARCH_USERNAME
-        #  value: "user"
-        #- name: ELASTICSEARCH_PASSWORD
-        #  value: "password"
+        - name: ELASTICSEARCH_USERNAME
+          value: "$ELASTICSEARCH_USERNAME"
+        - name: ELASTICSEARCH_PASSWORD
+          value: "$ELASTICSEARCH_PASSWORD"
         ports:
         - containerPort: 5601
         resources:

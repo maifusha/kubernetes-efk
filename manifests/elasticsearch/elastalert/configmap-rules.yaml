@@ -12,7 +12,7 @@ data:
     index: application.error-%Y.%m.%d
     use_strftime_index: True
     generate_kibana_link: True
-    kibana_url: kibana.efk.yoursite.com
+    kibana_url: $KIBANA_URL
 
     filter:
       - terms:
@@ -30,7 +30,7 @@ data:
     alert:
       - email
     email:
-      - dev@yoursite.com
+      - $SMTP_ELASTALERT_TO
     alert_subject: "[{0} 应用报错] {1}环境，{2}应用"
     alert_subject_args:
       - "@timestamp"
@@ -43,7 +43,7 @@ data:
     index: php.error-%Y.%m.%d
     use_strftime_index: True
     generate_kibana_link: True
-    kibana_url: kibana.efk.yoursite.com
+    kibana_url: $KIBANA_URL
 
     filter:
       - terms:
@@ -61,7 +61,7 @@ data:
     alert:
       - email
     email:
-      - dev@yoursite.com
+      - $SMTP_ELASTALERT_TO
     alert_subject: "[{0} PHP报错] {1}主机"
     alert_subject_args:
       - "@timestamp"

@@ -8,7 +8,7 @@ metadata:
 spec:
   rules:
   -
-    host: elasticsearch.efk.yoursite.com
+    host: $ELASTICSEARCH_URL
     http:
       paths:
       - path: /
@@ -26,7 +26,7 @@ metadata:
 spec:
   rules:
   -
-    host: kibana.efk.yoursite.com
+    host: $KIBANA_URL
     http:
       paths:
       - path: /
