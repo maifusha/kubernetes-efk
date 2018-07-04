@@ -26,10 +26,12 @@ spec:
       - name: volume-mount-hack
         image: busybox
         imagePullPolicy: IfNotPresent
-        command: ["sh", "-c", "chown -R 1000:100 /usr/share/elasticsearch/data"]
+        command: ["sh", "-c", "chown -R 1000:100 /usr/share/elasticsearch/data /usr/share/elasticsearch/log"]
         volumeMounts:
-        - name: datalog
+        - name: data
           mountPath: /usr/share/elasticsearch/data
+        - name: log
+          mountPath: /usr/share/elasticsearch/log
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -55,21 +57,27 @@ spec:
         - name: MINIMUM_MASTER_NODES
           value: "1"
         - name: UNICAST_HOSTS
-          value: "elasticsearch-efk.$NAMESPACE.svc:9300"
+          value: "elasticsearch-efk.$NAMESPACE.svc"
         ports:
         - name: api
           containerPort: 9200
         - name: transport
           containerPort: 9300
         resources:
+          requests:
+            cpu: 1000m
+            memory: 2000Mi
           limits:
-            memory: "2147483648"
+            cpu: 1000m
+            memory: 2000Mi
         volumeMounts:
         - name: config
-          mountPath: /usr/share/elasticsearch/elasticsearch.yml
+          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           subPath: elasticsearch.yml
-        - name: datalog
-          mountPath: /usr/share/elasticsearch
+        - name: data
+          mountPath: /usr/share/elasticsearch/data
+        - name: log
+          mountPath: /usr/share/elasticsearch/log
       # Allow non-root user to access PersistentVolume
       securityContext:
         fsGroup: 1000
@@ -78,10 +86,13 @@ spec:
       - name: config
         configMap:
           name: elasticsearch
-      - name: datalog
+      - name: data
         hostPath:
-          path: /data/efk/elasticsearch
-      #- name: data
+          path: /data/efk/elasticsearch/data
+      - name: log
+        hostPath:
+          path: /data/efk/elasticsearch/log
+      #- name: datalog
       #  persistentVolumeClaim:
       #    claimName: elasticsearch
 
@@ -99,4 +110,5 @@ spec:
 #  - ReadWriteOnce
 #  resources:
 #    requests:
-#      storage: 1G
+#      storage: 10G
+
