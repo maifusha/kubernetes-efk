@@ -26,7 +26,7 @@ spec:
             command: ['--config', '/etc/curator/config.yml', '/etc/curator/action.yml']
             env:
             - name: ELASTIC_SEARCH_HOST
-              value: "elasticsearch-efk.$NAMESPACE.svc"
+              value: "elasticsearch.$NAMESPACE.svc"
             - name: ELASTIC_SEARCH_PORT
               value: "9200"
             - name: FILTER_REGEX

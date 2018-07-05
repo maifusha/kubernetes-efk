@@ -26,7 +26,7 @@ data:
 
     # The Elasticsearch hostname for metadata writeback
     # Note that every rule can have its own Elasticsearch host
-    es_host: elasticsearch-efk.$NAMESPACE.svc
+    es_host: elasticsearch.$NAMESPACE.svc
 
     # The Elasticsearch port
     es_port: 9200

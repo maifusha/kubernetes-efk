@@ -18,7 +18,7 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - name:  FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch-efk.$NAMESPACE.svc"
+          value: "elasticsearch.$NAMESPACE.svc"
         - name:  FLUENT_ELASTICSEARCH_PORT
           value: "9200"
         - name: FLUENT_ELASTICSEARCH_SCHEME
