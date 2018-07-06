@@ -45,13 +45,15 @@ spec:
       - name: elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.0.1
         imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
         env:
         - name: ES_JAVA_OPTS
           value: "-Xms1g -Xmx1g"
-        - name: NETWORK_HOST
-          value: "elasticsearch"
         - name: MINIMUM_MASTER_NODES
           value: "1"
+        - name: BIND_ADDRESS
+          value: "0.0.0.0"
         - name: UNICAST_HOSTS
           value: "elasticsearch.$NAMESPACE.svc"
         ports:
