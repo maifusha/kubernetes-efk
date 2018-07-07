@@ -3,7 +3,7 @@
 NAMESPACE=efk
 ELASTICSEARCH_URL=elasticsearch.efk.yoursite.com
 KIBANA_URL=kibana.efk.yoursite.com
-ELASTICSEARCH_USERNAME=user
+ELASTICSEARCH_USERNAME=elasticsearch
 ELASTICSEARCH_PASSWORD=password
 SMTP_ELASTALERT_FROM=ElastAlert@yoursite.com
 SMTP_ELASTALERT_TO=dev@yoursite.com

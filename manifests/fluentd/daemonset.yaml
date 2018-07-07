@@ -4,6 +4,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
+    stack: efk
 spec:
   template:
     metadata:
@@ -14,8 +15,9 @@ spec:
       serviceAccountName: fluentd
       containers:
       - name: fluentd
-        image: fluent/fluentd-kubernetes-daemonset:v0.12-elasticsearch
+        image: fluent/fluentd-kubernetes-daemonset:v1.2-debian-elasticsearch
         imagePullPolicy: IfNotPresent
+        command: ["fluentd", "-c", "/fluentd/etc/fluent.conf", "-p", "/fluentd/plugins", "--gemfile", "/fluentd/Gemfile"]
         env:
         - name:  FLUENT_ELASTICSEARCH_HOST
           value: "elasticsearch.$NAMESPACE.svc"
@@ -44,7 +46,8 @@ spec:
             memory: 200Mi
         volumeMounts:
         - name: config
-          mountPath: /fluentd/etc
+          mountPath: /fluentd/etc/fluent.conf
+          subPath: fluent.conf
         - name: varlog
           mountPath: /var/log
         - name: varlibdockercontainers

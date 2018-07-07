@@ -4,6 +4,7 @@ metadata:
   name: fluentd
   labels:
     app: fluentd
+    stack: efk
 data:
   fluent.conf: |
     <system>

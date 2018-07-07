@@ -6,7 +6,7 @@ metadata:
     app: elastalert
     stack: efk
 data:
-  config.yaml: |-
+  config.yaml: |
     # This is the folder that contains the rule yaml files
     # Any .yaml file will be loaded as a rule
     rules_folder: /opt/elastalert/rules
@@ -69,13 +69,13 @@ data:
     smtp_host: $SMTP_HOST
     smtp_port: $SMTP_PORT
     smtp_ssl: True
-    smtp_auth_file: /opt/elastalert/config/smtp_auth.yaml
+    smtp_auth_file: /opt/elastalert/smtp_auth.yaml
 
-  smtp_auth.yaml: |-
+  smtp_auth.yaml: |
     user: $SMTP_USER
     password: $SMTP_PASSWORD
 
-  config.json: |-
+  config.json: |
     {
       "appName": "elastalert-server",
       "port": 3030,

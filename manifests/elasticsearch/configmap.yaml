@@ -8,18 +8,34 @@ metadata:
 data:
   elasticsearch.yml: |
     cluster.name: efk-cluster
-    node.name: efk-node-alpha
+    node:
+      name: efk-node-alpha
+      master: true
+      data: true
+      ingest: false
+      max_local_storage_nodes: 1
     path:
       data: /usr/share/elasticsearch/data
       logs: /usr/share/elasticsearch/log
     bootstrap.memory_lock: true
-    network.host: ${BIND_ADDRESS}
+    search.remote.connect: false
+    network.host: ${NETWORK_HOST}
     http:
+      enabled: true
       host: ${BIND_ADDRESS}
       port: 9200
     transport:
       host: ${BIND_ADDRESS}
       tcp:
         port: 9300
-    discovery.zen.minimum_master_nodes: ${MINIMUM_MASTER_NODES}
-    discovery.zen.ping.unicast.hosts: ${UNICAST_HOSTS}
+    discovery:
+      type: single-node
+      #zen:
+      #  minimum_master_nodes: ${MINIMUM_MASTER_NODES}
+      #  ping:
+      #    unicast:
+      #      hosts: ${UNICAST_HOSTS}
+  limits.conf: |
+    # allow user 'elasticsearch' mlockall
+    elasticsearch soft memlock unlimited
+    elasticsearch hard memlock unlimited

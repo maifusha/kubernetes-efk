@@ -6,13 +6,11 @@ metadata:
     app: elastalert
     stack: efk
 data:
-  application-error.yaml : |-
+  application-error.yaml: |
     name: Report Application Error
     type: any
     index: application.error-%Y.%m.%d
     use_strftime_index: True
-    generate_kibana_link: True
-    kibana_url: $KIBANA_URL
 
     filter:
       - terms:
@@ -37,18 +35,16 @@ data:
       - environment
       - application_name
 
-  php-error.yaml  : |-
+  php-error.yaml: |
     name: Report PHP Error
     type: any
     index: php.error-%Y.%m.%d
     use_strftime_index: True
-    generate_kibana_link: True
-    kibana_url: $KIBANA_URL
 
     filter:
       - terms:
           environment: ["production", "staging"]
-      - terms:
+      - term:
           level: "Fatal error"
 
     query_delay:

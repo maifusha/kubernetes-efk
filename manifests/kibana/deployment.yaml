@@ -24,9 +24,14 @@ spec:
                 operator: In
                 values:
                 - "true"
+      initContainers:
+      - name: wait-for-es
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'sleep 10; until nslookup elasticsearch.$NAMESPACE.svc; do echo waiting for es; sleep 3; done;']
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana-oss:6.0.1
+        image: docker.elastic.co/kibana/kibana:6.0.1
         imagePullPolicy: IfNotPresent
         env:
         - name: ELASTALERT_SERVERHOST

@@ -23,7 +23,7 @@ spec:
           containers:
           - name: curator
             image: bobrik/curator:latest
-            command: ['--config', '/etc/curator/config.yml', '/etc/curator/action.yml']
+            command: ["/usr/bin/curator", "--config", "/etc/curator/config.yml", "/etc/curator/action.yml"]
             env:
             - name: ELASTIC_SEARCH_HOST
               value: "elasticsearch.$NAMESPACE.svc"
