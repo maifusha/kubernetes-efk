@@ -38,10 +38,8 @@ spec:
           value: "elasticsearch.$NAMESPACE.svc"
         - name: ELASTICSEARCH_URL
           value: "http://elasticsearch.$NAMESPACE.svc:9200"
-        - name: ELASTICSEARCH_USERNAME
-          value: "$ELASTICSEARCH_USERNAME"
-        - name: ELASTICSEARCH_PASSWORD
-          value: "$ELASTICSEARCH_PASSWORD"
+        - name: KIBANA_PASSWORD
+          value: "$KIBANA_PASSWORD"
         ports:
         - containerPort: 5601
         resources:
