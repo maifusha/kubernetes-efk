@@ -28,7 +28,7 @@ spec:
       - name: wait-for-es
         image: busybox
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', 'sleep 10; until nslookup elasticsearch.$NAMESPACE.svc; do echo waiting for es; sleep 3; done;']
+        command: ['sh', '-c', 'until wget --spider -q elasticsearch.$NAMESPACE.svc; do echo waiting for es; sleep 1; done;']
       containers:
       - name: kibana
         image: docker.elastic.co/kibana/kibana:6.0.1

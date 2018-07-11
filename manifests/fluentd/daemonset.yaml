@@ -28,10 +28,10 @@ spec:
         - name:  FLUENT_ELASTICSEARCH_LOGSTASH_PREFIX
           value: "fluentd"
         # X-Pack Authentication
-        #- name: FLUENT_ELASTICSEARCH_USER
-        #  value: "user"
-        #- name: FLUENT_ELASTICSEARCH_PASSWORD
-        #  value: "password"
+        - name: FLUENT_ELASTICSEARCH_USER
+          value: "elastic"
+        - name: FLUENT_ELASTICSEARCH_PASSWORD
+          value: "$ELASTICSEARCH_PASSWORD"
         ports:
         - name: http
           containerPort: 9880
