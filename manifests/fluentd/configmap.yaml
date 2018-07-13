@@ -69,7 +69,7 @@ data:
 
     #### matches ####
     <match fluent.**>
-      type stdout
+      @type stdout
     </match>
 
     <match nginx.access>
@@ -77,15 +77,15 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
-      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
-      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+      user "elastic"
+      password "$ELASTICSEARCH_PASSWORD"
       logstash_format true
       logstash_prefix nginx.access
       logstash_dateformat %Y.%m.%d
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10s
+      flush_interval 10
       num_threads 2
     </match>
 
@@ -94,15 +94,15 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
-      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
-      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+      user "elastic"
+      password "$ELASTICSEARCH_PASSWORD"
       logstash_format true
       logstash_prefix application.error
       logstash_dateformat %Y.%m.%d
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10s
+      flush_interval 10
       num_threads 2
     </match>
 
@@ -111,15 +111,15 @@ data:
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
-      user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
-      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
+      user "elastic"
+      password "$ELASTICSEARCH_PASSWORD"
       logstash_format true
       logstash_prefix php.error
       logstash_dateformat %Y.%m.%d
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10s
+      flush_interval 10
       num_threads 2
     </match>
 
@@ -131,7 +131,7 @@ data:
   # https://groups.google.com/forum/#!msg/fluentd/CMZf4cTPlow/GADnOFIsBQAJ
   kubernetes.conf: |
     <source>
-      type tail
+      @type tail
       path /var/log/containers/*.log
       pos_file /var/log/fluentd-containers.log.pos
       time_format %Y-%m-%dT%H:%M:%S.%NZ
@@ -142,7 +142,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format /^(?<time>[^ ]* [^ ,]*)[^\[]*\[[^\]]*\]\[(?<severity>[^ \]]*) *\] (?<message>.*)$/
       time_format %Y-%m-%d %H:%M:%S
       path /var/log/salt/minion
@@ -151,7 +151,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format syslog
       path /var/log/startupscript.log
       pos_file /var/log/fluentd-startupscript.log.pos
@@ -159,7 +159,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format /^time="(?<time>[^)]*)" level=(?<severity>[^ ]*) msg="(?<message>[^"]*)"( err="(?<error>[^"]*)")?( statusCode=($<status_code>\d+))?/
       path /var/log/docker.log
       pos_file /var/log/fluentd-docker.log.pos
@@ -167,7 +167,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format none
       path /var/log/etcd.log
       pos_file /var/log/fluentd-etcd.log.pos
@@ -175,7 +175,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/kubelet.log
@@ -184,7 +184,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/kube-proxy.log
@@ -193,7 +193,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/kube-apiserver.log
@@ -202,7 +202,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/kube-controller-manager.log
@@ -211,7 +211,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/kube-scheduler.log
@@ -220,7 +220,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/rescheduler.log
@@ -229,7 +229,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/glbc.log
@@ -238,7 +238,7 @@ data:
     </source>
 
     <source>
-      type tail
+      @type tail
       format kubernetes
       multiline_flush_interval 5s
       path /var/log/cluster-autoscaler.log
@@ -247,5 +247,5 @@ data:
     </source>
 
     <filter kubernetes.**>
-      type kubernetes_metadata
+      @type kubernetes_metadata
     </filter>

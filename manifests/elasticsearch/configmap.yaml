@@ -12,7 +12,7 @@ data:
       name: efk-node-alpha
       master: true
       data: true
-      ingest: false
+      ingest: true
       max_local_storage_nodes: 1
     path:
       data: /usr/share/elasticsearch/data
