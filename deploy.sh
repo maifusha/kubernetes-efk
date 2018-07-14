@@ -27,3 +27,5 @@ sed -i "s/\$SMTP_PASSWORD/$SMTP_PASSWORD/g" ./manifests-all.yaml
 
 kubectl create namespace $NAMESPACE
 kubectl -n $NAMESPACE apply -f ./manifests-all.yaml
+
+rm manifests-all.yaml

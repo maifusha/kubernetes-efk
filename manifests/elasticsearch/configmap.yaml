@@ -9,7 +9,7 @@ data:
   elasticsearch.yml: |
     cluster.name: efk-cluster
     node:
-      name: efk-node-alpha
+      name: efk-node-1
       master: true
       data: true
       ingest: true
@@ -19,26 +19,26 @@ data:
       logs: /usr/share/elasticsearch/log
     bootstrap.memory_lock: true
     search.remote.connect: false
-    network.host: ${NETWORK_HOST}
+    network.host: _site_
     http:
       enabled: true
-      host: ${BIND_ADDRESS}
+      host: 0.0.0.0
       port: 9200
     transport:
-      host: ${BIND_ADDRESS}
+      host: 0.0.0.0
       tcp:
         port: 9300
     discovery:
       type: single-node
       #zen:
-      #  minimum_master_nodes: ${MINIMUM_MASTER_NODES}
+      #  minimum_master_nodes: 1
       #  ping:
       #    unicast:
-      #      hosts: ${UNICAST_HOSTS}
-    xpack.security.enabled: true
+      #      hosts: elasticsearch.$NAMESPACE.svc
     xpack.monitoring.enabled: true
     xpack.ml.enabled: false
     xpack.watcher.enabled: false
+    xpack.security.enabled: true
     xpack.security.audit.enabled: false
     xpack.security.http.ssl.enabled: false
     xpack.security.transport.ssl.enabled: false

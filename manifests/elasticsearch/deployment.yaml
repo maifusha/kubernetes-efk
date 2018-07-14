@@ -43,7 +43,7 @@ spec:
           mountPath: /usr/share/elasticsearch/log
       containers:
       - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:6.0.1
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
@@ -54,14 +54,6 @@ spec:
         env:
         - name: ES_JAVA_OPTS
           value: "-Xms1g -Xmx1g"
-        - name: MINIMUM_MASTER_NODES
-          value: "1"
-        - name: NETWORK_HOST
-          value: "_site_"
-        - name: BIND_ADDRESS
-          value: "0.0.0.0"
-        - name: UNICAST_HOSTS
-          value: "elasticsearch.$NAMESPACE.svc"
         - name: ELASTIC_PASSWORD
           value: "$ELASTICSEARCH_PASSWORD"
         ports:
@@ -72,9 +64,9 @@ spec:
         resources:
           requests:
             cpu: 1
-            memory: 2000Mi
+            memory: 1000Mi
           limits:
-            cpu: 1
+            cpu: 2
             memory: 2000Mi
         volumeMounts:
         - name: config

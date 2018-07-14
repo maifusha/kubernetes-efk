@@ -33,12 +33,12 @@ spec:
         - name: forward
           containerPort: 24224
         resources:
-          limits:
-            cpu: 100m
-            memory: 200Mi
           requests:
-            cpu: 100m
+            cpu: 0.4
             memory: 200Mi
+          limits:
+            cpu: 0.8
+            memory: 400Mi
         volumeMounts:
         - name: config
           mountPath: /fluentd/etc/fluent.conf
@@ -47,6 +47,8 @@ spec:
           mountPath: /var/log
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
+        - name: pos
+          mountPath: /tmp/fluentd/pos
         securityContext:
           runAsUser: 0
       volumes:
@@ -59,3 +61,6 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
+      - name: pos
+        hostPath:
+          path: /data/efk/fluentd/pos

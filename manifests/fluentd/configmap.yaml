@@ -85,8 +85,11 @@ data:
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10
       num_threads 2
+
+      <buffer>
+        flush_interval 30s
+      </buffer>
     </match>
 
     <match application.error>
@@ -102,8 +105,11 @@ data:
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10
       num_threads 2
+
+      <buffer>
+        flush_interval 30s
+      </buffer>
     </match>
 
     <match php.error>
@@ -119,8 +125,11 @@ data:
       type_name log
       utc_index false
       reconnect_on_error true
-      flush_interval 10
       num_threads 2
+
+      <buffer>
+        flush_interval 30s
+      </buffer>
     </match>
 
 

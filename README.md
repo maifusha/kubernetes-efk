@@ -21,4 +21,3 @@
 
 ## 注意
 * ES Ulimits问题需要通过自定义镜像解决（挂载limits.conf）或等K8S官方升级后提供解决方案
-* X-Pack使用了内置的超级账号 `elastic`、`kibana`

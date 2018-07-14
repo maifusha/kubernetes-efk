@@ -31,30 +31,31 @@ spec:
         command: ["sh", "-c", "until nc -z elasticsearch.efk.svc 9200; do sleep 1; done;"]
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:6.0.1
+        image: docker.elastic.co/kibana/kibana:6.3.1
         imagePullPolicy: IfNotPresent
         env:
-        - name: ELASTALERT_SERVERHOST
-          value: "elasticsearch.$NAMESPACE.svc"
-        - name: ELASTICSEARCH_URL
-          value: "http://elasticsearch.$NAMESPACE.svc:9200"
         - name: KIBANA_PASSWORD
           value: "$KIBANA_PASSWORD"
         ports:
         - containerPort: 5601
         resources:
-          limits:
-            cpu: 100m
-            memory: 200Mi
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 0.5
+            memory: 400Mi
+          limits:
+            cpu: 1
+            memory: 800Mi
         volumeMounts:
         - name: config
-          mountPath: /usr/share/kibana/kibana.yml
+          mountPath: /usr/share/kibana/config/kibana.yml
           subPath: kibana.yml
+        - name: data
+          mountPath: /usr/share/kibana/data
       restartPolicy: Always
       volumes:
       - name: config
         configMap:
           name: kibana
+      - name: data
+        hostPath:
+          path: /data/efk/kibana/data

@@ -9,17 +9,22 @@ data:
   kibana.yml: |
     server:
       name: Kibana
-      host: 0.0.0.0
+      host: localhost
       port: 5601
     elasticsearch:
-      url: ${ELASTICSEARCH_URL:localhost}
+      url: http://elasticsearch.$NAMESPACE.svc:9200
       username: elastic
       password: $ELASTICSEARCH_PASSWORD
-    elastalert.serverHost: ${ELASTALERT_SERVERHOST}
+    logging:
+      dest: stdout
+      quiet: true
+      useUTC: false
+    optimize.enabled: false
     kibana.defaultAppId: "discover"
-    logging.dest: stdout
-    logging.quiet: true
+    xpack.graph.enabled: true
     xpack.security.enabled: true
+    xpack.searchprofiler.enabled: true
     xpack.monitoring.enabled: true
     xpack.ml.enabled: false
     xpack.reporting.enabled: false
+    xpack.watcher.enabled: false
