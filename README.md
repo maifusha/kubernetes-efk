@@ -10,7 +10,6 @@
     * 进入`elastalert`容器中执行命令`python /opt/elastalert/elastalert/create_index.py`创建`elastalert`的状态存储索引
 5. `Kibana`配置
     * 目标检索的`index pattern`：`php.error-*`、`application.error-*`
-6. 下线服务 `kubectl delete namespace $NAMESPACE`
 
 
 ## Reference
