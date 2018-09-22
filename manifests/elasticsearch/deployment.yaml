@@ -15,13 +15,16 @@ spec:
         app: elasticsearch
         stack: efk
     spec:
+      restartPolicy: Always
       serviceAccountName: elasticsearch
+      securityContext:
+        fsGroup: 1000 # Allow non-root user to access PersistentVolume
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: efknode
+              - key: efk-node
                 operator: In
                 values:
                 - "true"
@@ -35,16 +38,21 @@ spec:
       - name: volume-mount-hack
         image: busybox
         imagePullPolicy: IfNotPresent
-        command: ["sh", "-c", "chown -R 1000:100 /usr/share/elasticsearch/data /usr/share/elasticsearch/log"]
+        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data /usr/share/elasticsearch/log"]
+        securityContext:
+          privileged: true
+          runAsUser: 0
         volumeMounts:
         - name: data
           mountPath: /usr/share/elasticsearch/data
         - name: log
           mountPath: /usr/share/elasticsearch/log
+      imagePullSecrets:
+      - name: myregistrykey
       containers:
       - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
-        imagePullPolicy: IfNotPresent
+        image: $REGISTRY_SERVER/docker/elasticsearch:6.3.2
+        imagePullPolicy: imagePullPolicy
         securityContext:
           privileged: true
           capabilities:
@@ -73,16 +81,12 @@ spec:
           mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
           subPath: elasticsearch.yml
         - name: config
-          mountPath: /etc/security/limits.conf
-          subPath: limits.conf
+          mountPath: /usr/share/elasticsearch/config/log4j2.properties
+          subPath: log4j2.properties
         - name: data
           mountPath: /usr/share/elasticsearch/data
         - name: log
           mountPath: /usr/share/elasticsearch/log
-      # Allow non-root user to access PersistentVolume
-      securityContext:
-        fsGroup: 1000
-      restartPolicy: Always
       volumes:
       - name: config
         configMap:

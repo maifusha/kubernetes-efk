@@ -11,8 +11,7 @@ spec:
     host: $ELASTICSEARCH_URL
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: elasticsearch
           servicePort: 9200
 ---
@@ -29,7 +28,6 @@ spec:
     host: $KIBANA_URL
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: kibana
           servicePort: 5601

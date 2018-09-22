@@ -7,6 +7,9 @@ metadata:
     stack: efk
 spec:
   type: ClusterIP
+  selector:
+    app: elasticsearch
+    stack: efk
   ports:
   - name: http
     port: 9200
@@ -14,6 +17,3 @@ spec:
   - name: transport
     port: 9300
     targetPort: 9300
-  selector:
-    app: elasticsearch
-    stack: efk

@@ -20,7 +20,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: efknode
+              - key: efk-node
                 operator: In
                 values:
                 - "true"

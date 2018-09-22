@@ -7,10 +7,10 @@ metadata:
     stack: efk
 spec:
   type: ClusterIP
+  selector:
+    app: kibana
+    stack: efk
   ports:
   - name: ui
     port: 5601
     targetPort: 5601
-  selector:
-    app: kibana
-    stack: efk

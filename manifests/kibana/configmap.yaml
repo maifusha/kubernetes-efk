@@ -8,23 +8,23 @@ metadata:
 data:
   kibana.yml: |
     server:
-      name: Kibana
-      host: localhost
+      name: $KIBANA_URL
+      host: 0.0.0.0
       port: 5601
     elasticsearch:
       url: http://elasticsearch.$NAMESPACE.svc:9200
-      username: elastic
+      username: $ELASTICSEARCH_USER
       password: $ELASTICSEARCH_PASSWORD
     logging:
       dest: stdout
       quiet: true
       useUTC: false
-    optimize.enabled: false
-    kibana.defaultAppId: "discover"
+    # each of the xpack features should be enabled, or it will be unable to start otherwise
+    xpack.ml.enabled: true
     xpack.graph.enabled: true
+    xpack.watcher.enabled: true
     xpack.security.enabled: true
+    xpack.reporting.enabled: true
     xpack.searchprofiler.enabled: true
     xpack.monitoring.enabled: true
-    xpack.ml.enabled: false
-    xpack.reporting.enabled: false
-    xpack.watcher.enabled: false
+    xpack.monitoring.ui.container.elasticsearch.enabled: true

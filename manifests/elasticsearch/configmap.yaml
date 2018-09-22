@@ -35,14 +35,22 @@ data:
       #  ping:
       #    unicast:
       #      hosts: elasticsearch.$NAMESPACE.svc
-    xpack.monitoring.enabled: true
-    xpack.ml.enabled: false
-    xpack.watcher.enabled: false
     xpack.security.enabled: true
     xpack.security.audit.enabled: false
     xpack.security.http.ssl.enabled: false
     xpack.security.transport.ssl.enabled: false
-  limits.conf: |
-    # allow user 'elasticsearch' mlockall
-    elasticsearch soft memlock unlimited
-    elasticsearch hard memlock unlimited
+    xpack.monitoring.enabled: true
+    xpack.monitoring.collection.enabled: true
+    xpack.ml.enabled: false
+    xpack.watcher.enabled: false
+  log4j2.properties: |
+    status = error
+
+    appender.console.type = Console
+    appender.console.name = console
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] %marker%m%n
+
+    rootLogger.level = info
+    rootLogger.appenderRef.console.ref = console
+    rootLogger.action = debug

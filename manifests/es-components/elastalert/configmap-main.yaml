@@ -51,7 +51,7 @@ data:
     #es_send_get_body_as: GET
 
     # Option basic-auth username and password for Elasticsearch
-    es_username: elastic
+    es_username: $ELASTICSEARCH_USER
     es_password: $ELASTICSEARCH_PASSWORD
 
     # The index on es_host which is used for metadata storage

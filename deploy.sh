@@ -1,31 +1,22 @@
 #!/bin/sh
 
-NAMESPACE=efk
-ELASTICSEARCH_URL=elasticsearch.efk.yoursite.com
-KIBANA_URL=kibana.efk.yoursite.com
-ELASTICSEARCH_PASSWORD=elasticsearchpassword
-KIBANA_PASSWORD=kibanapassword
-SMTP_ELASTALERT_FROM=ElastAlert@yoursite.com
-SMTP_ELASTALERT_TO=dev@yoursite.com
-SMTP_HOST=smtp.exmail.qq.com
-SMTP_PORT=465
-SMTP_USER=dev@yoursite.com
-SMTP_PASSWORD=yourpassword
+# Create one single manifest file
+target="./manifests-all.yaml"
+for file in $(find ./manifests -type f -name "*.yaml" | sort) ; do
+  echo "---" >> "$target"
+  cat "$file" >> "$target"
+done
 
-./build.sh
-sed -i "s/\$NAMESPACE/$NAMESPACE/g" ./manifests-all.yaml
-sed -i "s/\$ELASTICSEARCH_URL/$ELASTICSEARCH_URL/g" ./manifests-all.yaml
-sed -i "s/\$KIBANA_URL/$KIBANA_URL/g" ./manifests-all.yaml
-sed -i "s/\$ELASTICSEARCH_PASSWORD/$ELASTICSEARCH_PASSWORD/g" ./manifests-all.yaml
-sed -i "s/\$KIBANA_PASSWORD/$KIBANA_PASSWORD/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_ELASTALERT_FROM/$SMTP_ELASTALERT_FROM/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_ELASTALERT_TO/$SMTP_ELASTALERT_TO/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_HOST/$SMTP_HOST/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_PORT/$SMTP_PORT/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_USER/$SMTP_USER/g" ./manifests-all.yaml
-sed -i "s/\$SMTP_PASSWORD/$SMTP_PASSWORD/g" ./manifests-all.yaml
+# replace env variables in manifest file
+source ./.env
+for line in `cat .env` ; do
+  var=$(echo -n $line   | awk 'BEGIN {FS="="} {print $1}')
+  value=$(echo -n $line | awk 'BEGIN {FS="="} {print $2}')
+  sed -i "s#\$$var#$value#g" ./manifests-all.yaml
+done
 
 kubectl create namespace $NAMESPACE
+kubectl -n $NAMESPACE create secret docker-registry myregistrykey --docker-server=$REGISTRY_SERVER --docker-username="$REGISTRY_USERNAME" --docker-password="$REGISTRY_PASSWORD" --docker-email="$REGISTRY_EMAIL"
 kubectl -n $NAMESPACE apply -f ./manifests-all.yaml
 
-rm manifests-all.yaml
+rm $target

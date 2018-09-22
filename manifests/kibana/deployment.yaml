@@ -15,43 +15,52 @@ spec:
         app: kibana
         stack: efk
     spec:
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 1000 # Allow non-root user to access PersistentVolume
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: efknode
+              - key: efk-node
                 operator: In
                 values:
                 - "true"
       initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/kibana/data"]
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        volumeMounts:
+        - name: data
+          mountPath: /usr/share/kibana/data
       - name: wait-for-es
         image: busybox
         imagePullPolicy: IfNotPresent
         command: ["sh", "-c", "until nc -z elasticsearch.efk.svc 9200; do sleep 1; done;"]
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana:6.3.1
+        image: docker.elastic.co/kibana/kibana:6.3.2
         imagePullPolicy: IfNotPresent
-        env:
-        - name: KIBANA_PASSWORD
-          value: "$KIBANA_PASSWORD"
         ports:
         - containerPort: 5601
         resources:
           requests:
             cpu: 0.5
-            memory: 400Mi
+            memory: 500Mi
           limits:
             cpu: 1
-            memory: 800Mi
+            memory: 1000Mi
         volumeMounts:
         - name: config
           mountPath: /usr/share/kibana/config/kibana.yml
           subPath: kibana.yml
         - name: data
           mountPath: /usr/share/kibana/data
-      restartPolicy: Always
       volumes:
       - name: config
         configMap:
